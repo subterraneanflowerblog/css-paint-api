@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Paint API</title>
+    <style>
+        .target {
+            width: 500px;
+            height: 500px;
+            /* paint(登録した名前)で画像として使える */
+            background-image: paint(circle);
+        }
+    </style>
+</head>
+<body>
+<div class="target"></div>
+
+<script>
+    // workletを登録する
+    CSS.paintWorklet.addModule('worklet.js');
+</script>
+</body>
+</html>

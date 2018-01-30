@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Paint API</title>
+    <style>
+        .target {
+            width: 500px;
+            height: 500px;
+
+            --circle-radius: 50;
+
+            background-image: paint(circle);
+        }
+    </style>
+</head>
+<body>
+    <div class="target"></div>
+
+    <script>
+        // workletを登録する
+        CSS.paintWorklet.addModule('worklet.js');
+
+        // アニメーションさせる。
+        // CSS Transition/CSS Animationは
+        // CSS Variablesには対応してないので手動で動かす。
+        const target = document.body.querySelector('.target');
+
+        let radius = 50; // 円の半径
+        let velocity = 1; // 円の膨張速度
+
+        // アニメーションループ用の関数
+        function loop(timestamp) {
+            radius += velocity;
+            if(radius < 50 || radius > 150) {
+                velocity = -velocity;
+            }
+
+            // --circle-radiusに値をセットする
+            target.style.setProperty('--circle-radius', radius);
+
+            // 次のフレームを要求する
+            requestAnimationFrame((ts) => loop(ts));
+        }
+
+        // アニメーション開始
+        requestAnimationFrame((ts) => loop(ts));
+    </script>
+</body>
+</html>
